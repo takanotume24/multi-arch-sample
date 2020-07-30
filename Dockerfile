@@ -1,5 +1,14 @@
 FROM crystallang/crystal
 
+RUN git clone https://github.com/ivmai/bdwgc.git
+WORKDIR bdwgc
+RUN git clone https://github.com/ivmai/libatomic_ops.git
+RUN autoreconf -vif
+RUN ./configure --enable-static --disable-shared
+RUN make -j
+RUN make check
+RUN sudo make install
+
 RUN apt-get update && \
     apt-get install -y \
     libbsd-dev \
