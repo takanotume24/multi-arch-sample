@@ -27,7 +27,7 @@ RUN autoreconf -vif
 RUN ./configure --enable-static --disable-shared
 RUN make -j
 RUN make check
-RUN sudo make install
+RUN make install
   
 RUN git clone https://github.com/crystal-lang/crystal
 WORKDIR crystal
