@@ -1,14 +1,5 @@
 FROM crystallang/crystal
 
-RUN git clone https://github.com/ivmai/bdwgc.git
-WORKDIR bdwgc
-RUN git clone https://github.com/ivmai/libatomic_ops.git
-RUN autoreconf -vif
-RUN ./configure --enable-static --disable-shared
-RUN make -j
-RUN make check
-RUN sudo make install
-
 RUN apt-get update && \
     apt-get install -y \
     libbsd-dev \
@@ -27,8 +18,17 @@ RUN apt-get update && \
   lld-8 \
   libpcre3-dev \
   build-essential -y
-  
 RUN ln -sf /usr/bin/ld.lld-8 /usr/bin/ld.lld
+
+RUN git clone https://github.com/ivmai/bdwgc.git
+WORKDIR bdwgc
+RUN git clone https://github.com/ivmai/libatomic_ops.git
+RUN autoreconf -vif
+RUN ./configure --enable-static --disable-shared
+RUN make -j
+RUN make check
+RUN sudo make install
+  
 RUN git clone https://github.com/crystal-lang/crystal
 WORKDIR crystal
 RUN make
